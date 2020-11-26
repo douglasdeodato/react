@@ -1,0 +1,16 @@
+// *********************************************************************
+//  Author: @douglasdeodato
+//  Site: x
+//  Date : nov 2020
+//  Version: bower.json or package.json
+// *********************************************************************/
+
+a {
+  color: red;
+  &:hover {
+    color: blue;
+  }
+  &:after {
+    content: $fa-var-anchor;
+  }
+}
