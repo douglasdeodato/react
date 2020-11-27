@@ -18,6 +18,24 @@ module.exports = function (grunt) {
     serverPort: 8000
   };
 
+  //Handlebars ===============================
+
+  // var hbs;
+  // config.handlebars = hbs = {};
+
+  // hbs.dist = {
+  //   options: {
+  //     namespace: "myapp.templates",
+  //     processName: function (path) {
+  //       console.log("=>", path);
+  //       return path.replace(/^templates\/(.*?)\.hbs$/, "$1");
+  //     }
+  //   },
+  //   files: {
+  //     "tmp/templates.js": "templates/**/*.hbs"
+  //   }
+  // };
+
   //Concat ===============================
 
   var concat
@@ -26,7 +44,7 @@ module.exports = function (grunt) {
   concat.dev = {
     files: {
       "public/myapp.development.js": [
-        "with-bootstrap/public/js/vendor", "with-bootstrap/public/js/**/*.js"
+        "lib/vendor","node_modules/handlebars-runtime/handlebars.runtime.js","tmp/templates.js","lib/**/*.js","calc/**/*.js"
       ]
     }
   };
@@ -36,7 +54,7 @@ module.exports = function (grunt) {
 
   config.uglify = {
     dist: {
-      options: { sourceMap: "public/myapp.production.js.map" },
+      options: { sourceMap: "public/myapp.production.js.map", report: "gzip" },
       files: {
         "public/myapp.production.js": ["public/myapp.development.js"]
       }
@@ -144,24 +162,24 @@ module.exports = function (grunt) {
     }
   };
 
-   //Html Minifier ===============================
+  //Html Minifier ===============================
 
-   var htmlmin;
-   config.htmlmin = htmlmin = {};
- 
-   htmlmin.dist = {
-     options: {
-       collapseWhitespace: true,
-       conservativeCollapse: true,
-       // minifyCSS: true,
-       // minifyJS: true,
-       removeAttributeQuotes: true,
-       removeComments: true
-     },
-     files: {
-       'layout.min.html': 'jade/compiled-templates/layout.html'
-     }
-   };
+  var htmlmin;
+  config.htmlmin = htmlmin = {};
+
+  htmlmin.dist = {
+    options: {
+      collapseWhitespace: true,
+      conservativeCollapse: true,
+      // minifyCSS: true,
+      // minifyJS: true,
+      removeAttributeQuotes: true,
+      removeComments: true
+    },
+    files: {
+      'layout.min.html': 'jade/compiled-templates/layout.html'
+    }
+  };
 
   //Image min ===============================
   var imagemin;
@@ -182,6 +200,7 @@ module.exports = function (grunt) {
   };
 
   //Sprite ===============================
+
   var sprite;
   config.sprite = sprite = {};
 
@@ -193,6 +212,7 @@ module.exports = function (grunt) {
   };
 
   //grunt serve ===============================
+  
   config.connect = {
     server: {
       options: {
