@@ -1,10 +1,8 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   var config = {};
 
-  //setup the configuration object
-  var jshint;
-
   //src ===============================
+
   var src;
   config.src = src = {
     sassMain: 'scss/main.scss',
@@ -35,6 +33,7 @@ module.exports = function(grunt) {
 
 
   //Uglify ===============================
+
   config.uglify = {
     dist: {
       options: { sourceMap: "public/myapp.production.js.map" },
@@ -44,37 +43,71 @@ module.exports = function(grunt) {
     }
   }
 
+  //Jasmine ===============================
 
-  //config.jshint = jshint ={};
-  //jshint.dist = {
-  //options: {jshintrc: ".jshintrc"},
-  //files: {all: ["with-bootstrap/public/js/main.js","with-bootstrap/public/js/test.js"]}
-  //};
+  var jasmine;
+  config.jasmine = jasmine = {};
+
+  jasmine.calc = {
+    src: "calc/calc.js",
+    options: {
+      specs: "spec/calc.spec.js"
+    }
+  };
+
+  //Jshint ===============================
+
+  var jshint;
+  config.jshint = jshint = {};
+
+
+  jshint.dist = {
+    options: { jshintrc: ".jshintrc" },
+    files: { all: ["lib/main.js", "lib/test.js"] }
+  };
+
+  jshint.dev = {
+    options: { jshintrc: ".jshintrc.dev" },
+    files: { all: ["lib/main.js", "lib/test.js"] }
+  };
 
   //Watch ===============================
+
   config.watch = {
     scripts: {
-      files: ["<%= src.libFolder %>", "<%= src.sassFolder %>"],
+      files: ["<%= src.libFolder %>", "<%= src.sassFolder %>", "jade/**/*.jade"],
       tasks: ["dev", "sass:dist"]
-        //,tasks: ["dev",'sass:dist']
+      //,tasks: ["dev",'sass:dist']
     }
   }
 
-  //jshint.dev = {
-  //options: {jshintrc: ".jshintrc.dev"},
-  //files: {all: ["with-bootstrap/public/js/main.js","with-bootstrap/public/js/test.js"]}
-  //};
+  //Jade ===============================
+
+  config.jade = {
+    compile: {
+      options: {
+        client: false,
+        pretty: true
+      },
+      files: [{
+        cwd: "jade/templates",
+        src: "**/*.jade",
+        dest: "jade/compiled-templates",
+        expand: true,
+        ext: ".html"
+      }]
+    }
+  }
 
   //Sass ===============================
+
   var sass;
   config.sass = sass = {};
 
   //distribution
   sass.dist = {
     options: {
-      style: "compressed",
-      //noCache: true,
-      //sourceMap: "none",
+      style: "compressed",//noCache: true, //sourceMap: "none",
       update: true
     },
     files: {
@@ -85,8 +118,7 @@ module.exports = function(grunt) {
   //development env.
   sass.dev = {
     options: {
-      style: "expanded",
-      //lineNumber: true,
+      style: "expanded",//lineNumber: true,
     },
     files: {
       "<%= src.devFolder %>": "<%= src.sassMain %>"
@@ -94,6 +126,7 @@ module.exports = function(grunt) {
   };
 
   //ScssLint ===============================
+
   var scsslint;
   config.scsslint = scsslint = {
     allFiles: [
@@ -111,6 +144,24 @@ module.exports = function(grunt) {
     }
   };
 
+   //Html Minifier ===============================
+
+   var htmlmin;
+   config.htmlmin = htmlmin = {};
+ 
+   htmlmin.dist = {
+     options: {
+       collapseWhitespace: true,
+       conservativeCollapse: true,
+       // minifyCSS: true,
+       // minifyJS: true,
+       removeAttributeQuotes: true,
+       removeComments: true
+     },
+     files: {
+       'layout.min.html': 'jade/compiled-templates/layout.html'
+     }
+   };
 
   //Image min ===============================
   var imagemin;
@@ -154,7 +205,7 @@ module.exports = function(grunt) {
 
   //Register custom tasks ===============================
   grunt.registerTask('default', ['dev']);
-  grunt.registerTask('dev', ['concat:dev', 'sass:dev']);
+  grunt.registerTask('dev', ['concat:dev', 'sass:dev', 'jasmine']);
   grunt.registerTask('dist', ['sprite', 'imagemin', 'concat:dev', 'uglify', 'sass:dist']);
   grunt.registerTask('serve', ['connect:server', 'watch']);
   require('time-grunt')(grunt);
