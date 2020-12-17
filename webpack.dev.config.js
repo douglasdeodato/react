@@ -1,4 +1,5 @@
 const path = require('path');
+const autoprefixer = require('autoprefixer');
 const { CleanWebpackPlugin } = require ('clean-webpack-plugin');
 const HtmlWebpackPlugin = require ('html-webpack-plugin');
 
@@ -30,6 +31,7 @@ module.exports = {
             },
             {
                 test:/\.css$/,
+                exclude: /node_modules/,
                 use:[
                     'style-loader', 'css-loader'
                 ]
@@ -41,10 +43,18 @@ module.exports = {
                 ]
             },
             {
+                loader: 'postcss-loader',
+                options: {
+                  ident: 'postcss',
+                  plugins: () => [autoprefixer()]
+                }
+              },
+            {
                 test:/\.js$/,
                 exclude: /node_modules/,
                 use:{
                     loader: 'babel-loader',
+                    exclude: /node_modules/,
                     options: {
                         presets: ['@babel/env', "@babel/preset-react"],
                         plugins: ['@babel/plugin-proposal-class-properties']
