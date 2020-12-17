@@ -31,7 +31,6 @@ module.exports = {
             },
             {
                 test:/\.css$/,
-                exclude: /node_modules/,
                 use:[
                     'style-loader', 'css-loader'
                 ]
@@ -51,10 +50,8 @@ module.exports = {
               },
             {
                 test:/\.js$/,
-                exclude: /node_modules/,
                 use:{
                     loader: 'babel-loader',
-                    exclude: /node_modules/,
                     options: {
                         presets: ['@babel/env', "@babel/preset-react"],
                         plugins: ['@babel/plugin-proposal-class-properties']
@@ -71,20 +68,6 @@ module.exports = {
     },
     plugins : [
         new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({
-            filename: 'page1.html',
-            chunks: ['page1'],
-            title: 'hello world handlebars',
-            template: 'src/index.hbs',
-            description: 'page 1 desc'
-        }),
-        new HtmlWebpackPlugin({
-            filename: 'page2.html',
-            chunks: ['page2'],
-            title: 'page2',
-            template: 'src/index.hbs',
-            description: 'page 2 desc'
-        }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             chunks: ['index'],

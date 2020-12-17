@@ -1,12 +1,11 @@
 const path = require('path');
+const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        'page1': './src/page1.js',
-        'page2': './src/page2.js',
         'index': './src/index.js'
     },
     output: {
@@ -45,11 +44,10 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
+                use:{
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/env'],
+                        presets: ['@babel/env', "@babel/preset-react"],
                         plugins: ['@babel/plugin-proposal-class-properties']
                     }
                 }
@@ -67,20 +65,6 @@ module.exports = {
             filename: '[name].[contenthash].css',
         }),
         new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({
-            filename: 'page1.html',
-            chunks: ['page1'],
-            title: 'hello world handlebars',
-            template: 'src/index.hbs',
-            description: 'page 1 desc'
-        }),
-        new HtmlWebpackPlugin({
-            filename: 'page2.html',
-            chunks: ['page2'],
-            title: 'page2',
-            template: 'src/index.hbs',
-            description: 'page 2 desc'
-        }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             chunks: ['index'],
