@@ -3,9 +3,8 @@ const { CleanWebpackPlugin } = require ('clean-webpack-plugin');
 const HtmlWebpackPlugin = require ('html-webpack-plugin');
 
 module.exports = {
+    mode:'development',
     entry: {
-        'page1': './src/page1.js',
-        'page2': './src/page2.js',
         'index': './src/index.js'
     },
     output: {
@@ -13,7 +12,7 @@ module.exports = {
         path: path.resolve(__dirname, './dist'),
         publicPath: ''
     },
-    mode:'development',
+    devtool: 'cheap-module-eval-source-map',
     devServer: {
         contentBase: path.resolve(__dirname, './dist'),
         index: 'index.html',
