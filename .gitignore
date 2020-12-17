@@ -2,6 +2,7 @@ bower_components
 node_modules
 built.css
 .tmp
+package-lock.json
 
 # Numerous always-ignore extensions
 *.diff
